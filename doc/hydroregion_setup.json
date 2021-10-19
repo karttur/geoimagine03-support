@@ -1,0 +1,125 @@
+{
+  "ease2n": [
+
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "nordichydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": 242256,
+      "miny": -4650000,
+      "maxx": 2080000,
+      "maxy": -1845000
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "greenlandhydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": -3122000,
+      "miny": -2807000,
+      "maxx": -179000,
+      "maxy": -360080
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "cahydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": -5370000,
+      "miny": -2850000,
+      "maxx": -2870000,
+      "maxy": 295000
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "alaskahydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": -4840000,
+      "miny": -426000,
+      "maxx": -750000,
+      "maxy": 3140000
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "kolymahydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": -850000,
+      "miny": 1340000,
+      "maxx": 2000000,
+      "maxy": 4000000
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "lenahydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": 1430000,
+      "miny": 540000,
+      "maxx": 4000000,
+      "maxy": 2800000
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "yieniseyhydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": 2050000,
+      "miny": -434000,
+      "maxx": 5000000,
+      "maxy": 1730000
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "obhydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": 1809000,
+      "miny": -2092000,
+      "maxx": 4910000,
+      "maxy": 350000
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "dvinahydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": 1750000,
+      "miny": -2740000,
+      "maxx": 2660000,
+      "maxy": -1710000
+    },
+    {
+      "x0": -9000000,
+      "y0": -9000000,
+      "regionid": "arcticoceanhydro_ease2n",
+      "dimdiv": 1000,
+      "xres": 90,
+      "yres": 90,
+      "minx": 242256,
+      "miny": -1845000,
+      "maxx": 2080000,
+      "maxy": 1500000
+    }
+  ]
+}
