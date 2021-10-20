@@ -12,104 +12,107 @@ import  time
 
 import datetime
 
+import csv
+
 def CopyProject():
     ''' Copy project updates to local GitHub clone
     '''
-    
-    if copyProjectDoc:
+       
+    for item in submoduleL:
         
-        pass
-    
-    else:
+        submoduleGitHubDirName = '%s-%s' %(prefix,item)
         
-        for item in submoduleL:
+        dstRootFP = os.path.join(gitHubFP,submoduleGitHubDirName)
+        
+        print ("copying updates for package", item)
+                  
+        srcFP = os.path.join(srcProjectFP,item)
+        
+        for subdir, dirs, files in os.walk(srcFP, topdown=True):
             
-            submoduleGitHubDirName = '%s-%s' %(prefix,item)
+            files = [f for f in files if not f.endswith('pyc')] 
             
-            dstRootFP = os.path.join(gitHubFP,submoduleGitHubDirName)
-            
-            print ("copying updates for package", item)
-                      
-            srcFP = os.path.join(srcProjectFP,item)
-            
-            for subdir, dirs, files in os.walk(srcFP, topdown=True):
+            for file in files:
                 
-                files = [f for f in files if not f.endswith('pyc')] 
+                print ('file',file)
                 
-                for file in files:
+                srcFPN = os.path.join(subdir,file)
+                
+                if not os.path.isfile(srcFPN):
+                
+                    continue
+                
+                if file in ignoreL:
+                
+                    continue
+                
+                if file[0] == '.':
                     
-                    print ('file',file)
+                    continue
+                
+                srcFPN = os.path.join(srcFP, subdir, file)
+                                   
+                print (srcFPN)
+                
+                print ('subdir',subdir)
+                
+                dstSubdir = os.path.split( subdir.replace(srcFP,'') )[1]
+                
+                print ('dstSubdir',dstSubdir)
+                
+                if len(dstSubdir) > 0:
+                
+                    dstFP =  os.path.join(dstRootFP,  dstSubdir)
                     
-                    srcFPN = os.path.join(subdir,file)
-                    
-                    if not os.path.isfile(srcFPN):
-                    
-                        continue
-                    
-                    if file in ignoreL:
-                    
-                        continue
-                    
-                    if file[0] == '.':
+                    if not os.path.isdir(dstFP):
                         
-                        continue
-                    
-                    srcFPN = os.path.join(srcFP, subdir, file)
-                                       
-                    print (srcFPN)
-                    
-                    print ('subdir',subdir)
-                    
-                    dstSubdir = os.path.split( subdir.replace(srcFP,'') )[1]
-                    
-                    print ('dstSubdir',dstSubdir)
-                    
-                    if len(dstSubdir) > 0:
-                    
-                        dstFP =  os.path.join(dstRootFP,  dstSubdir)
+                        print ('dstRootFP',dstRootFP)
                         
-                        if not os.path.isdir(dstFP):
-                            
-                            print ('dstRootFP',dstRootFP)
-                            
-                            print ('dstFP',dstFP)
-                            
-                            os.makedirs(dstFP)
+                        print ('dstFP',dstFP)
                         
-                    else:
-                        
-                        dstFP = dstRootFP
+                        os.makedirs(dstFP)
+                    
+                else:
+                    
+                    dstFP = dstRootFP
+                                    
+                dstFPN =  os.path.join(dstFP, file)
+                
+                print ('dstFPN',dstFPN)
+                                    
+                try:
+                
+                    srcTime = datetime.datetime.fromtimestamp( int(os.path.getmtime(srcFPN)) )
+                    
+                    dstTime = datetime.datetime.fromtimestamp( int(os.path.getmtime(dstFPN)) )
                                         
+                    if int( os.stat(srcFPN).st_mtime) <= int(os.stat(dstFPN).st_mtime):
+
+                        continue
+                
+                except OSError:
                     
+                    pass
+                
+                    print ('error - target probably non-existing')
+                
+                print ('    copying', item, file, dstFPN)
+                
+                print ('')
+                
+                shutil.copy(srcFPN, dstFPN) #copying from source to destination
+         
+        # Create .gitignore if it does not exist, or overwrite is set to true       
+        gitignoreFPN = os.path.join(dstRootFP,'.gitignore')
+        
+        if not os.path.isfile( gitignoreFPN ) or overwriteGitIgone:
             
-                    dstFPN =  os.path.join(dstFP, file)
-                    
-                    print ('dstFPN',dstFPN)
-                                        
-                    try:
-                    
-                        srcTime = datetime.datetime.fromtimestamp( int(os.path.getmtime(srcFPN)) )
-                        
-                        dstTime = datetime.datetime.fromtimestamp( int(os.path.getmtime(dstFPN)) )
-                                            
-                        if int( os.stat(srcFPN).st_mtime) <= int(os.stat(dstFPN).st_mtime):
-    
-                            continue
-                    
-                    except OSError:
-                        
-                        pass
-                    
-                        print ('error')
-                    
-                    print ('    copying', item, file, dstFPN)
-                    
-                    print ('    update created',srcTime, dstTime)
-                    
-                    print ('')
-                    
-  
-                    shutil.copy(srcFPN, dstFPN) #copying from source to destination
+            with open(gitignoreFPN, 'w', encoding='UTF8', newline='') as f:
+                
+                writer = csv.writer(f)
+                                    
+                # write multiple rows
+                writer.writerows(gitignore)
                               
 
 def WriteScript():
@@ -147,20 +150,18 @@ def WriteScript():
     shF.close()
     
     print ('Script file:', scriptFPN)
-    
-    
 
 if __name__ == "__main__":
     
     copyProject = True
     
-    copyProjectDoc = False
+    overwriteGitIgone = True
     
     branch = 'main'
     
     commitMsg = 'updates oct 2021'
     
-    ignoreL = ['__pycache__','.DS_Store']
+    ignoreL = ['__pycache__','.DS_Store','README.md']
     
     home = os.path.expanduser('~')
     
@@ -172,10 +173,12 @@ if __name__ == "__main__":
     
     gitHubAccount = 'karttur'
     
-    prefix = 'geoimagine02'
+    prefix = 'geoimagine03'
+    
+    gitignore = [['.DS_Store'],['__pycache__/']]
     
     submoduleL = ['ancillary','assets','basins','copernicus',
-                  'dem','export','exract',
+                  'dem','export','extract',
                   'gis','grace','grass','ktgdal',
                   'ktgrass','ktnumba',
                   'ktpandas','landsat','layout',
@@ -185,14 +188,9 @@ if __name__ == "__main__":
                   'setup_db','setup_processes','smap','support',
                   'timeseries','updatedb','userproj',
                   'zipper']
-    
-    submoduleL = ['zipper']
-    
+   
     if copyProject:
         
         CopyProject()
         
     WriteScript()
-        
-
-
