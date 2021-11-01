@@ -52,31 +52,73 @@ def CopyProject():
                 
                 srcFPN = os.path.join(srcFP, subdir, file)
                                    
-                print (srcFPN)
+                print ('srcFPN',srcFPN)
+                
+                subdirL = []
+                
+                rPath = srcFPN
+                
+                while True:
+                    
+                     rPath, subD = os.path.split(rPath)
+                     
+                     if subD == item:
+                         
+                         break
+                     
+                     subdirL.append(subD)
+                     
                 
                 print ('subdir',subdir)
+                print ('dstRootFP',dstRootFP)
+               
+                print ('subdirL',subdirL)
                 
-                dstSubdir = os.path.split( subdir.replace(srcFP,'') )[1]
-                
-                print ('dstSubdir',dstSubdir)
-                
-                if len(dstSubdir) > 0:
-                
-                    dstFP =  os.path.join(dstRootFP,  dstSubdir)
+                subdirL.reverse()
                     
-                    if not os.path.isdir(dstFP):
-                        
-                        print ('dstRootFP',dstRootFP)
-                        
-                        print ('dstFP',dstFP)
-                        
-                        os.makedirs(dstFP)
+                dstFP = dstRootFP
+                     
+                for d in subdirL:
                     
-                else:
+                    dstFP = os.path.join(dstFP,d)
                     
-                    dstFP = dstRootFP
+                    
+                    
+                print ('dstFP',dstFP)
+                
+                if not os.path.isdir(os.path.split(dstFP)[0]):
+                        
+                    print ('dstRootFP',dstRootFP)
+                        
+                    print ('dstFP',os.path.split(dstFP)[0])
+                        
+                    os.makedirs(os.path.split(dstFP)[0])
+
+                #dstSubdir = os.path.split( subdir.replace(srcFP,'') )[1]
+                
+                #print ('dstSubdir',dstSubdir)
+                
+                #BALLE
+                
+                #if len(dstFP) > 0:
+                
+                #    #dstFP =  os.path.join(dstRootFP,  dstSubdir)
+                    
+                #    if not os.path.isdir(os.path.split(dstFP)[0]):
+                        
+                #        print ('dstRootFP',dstRootFP)
+                        
+                #        print ('dstFP',os.path.split(dstFP)[0])
+                        
+                #        os.makedirs(os.path.split(dstFP)[0])
+                    
+                #else:
+                    
+                #    dstFP = dstRootFP
                                     
-                dstFPN =  os.path.join(dstFP, file)
+                #dstFPN =  os.path.join(dstFP, file)
+                
+                dstFPN =  dstFP
                 
                 print ('dstFPN',dstFPN)
                                     
@@ -105,7 +147,7 @@ def CopyProject():
         # Create .gitignore if it does not exist, or overwrite is set to true       
         gitignoreFPN = os.path.join(dstRootFP,'.gitignore')
         
-        if not os.path.isfile( gitignoreFPN ) or overwriteGitIgone:
+        if not os.path.isfile( gitignoreFPN ) or overwriteGitIgnore:
             
             with open(gitignoreFPN, 'w', encoding='UTF8', newline='') as f:
                 
@@ -155,7 +197,7 @@ if __name__ == "__main__":
     
     copyProject = True
     
-    overwriteGitIgone = True
+    overwriteGitIgnore = False
     
     branch = 'main'
     
@@ -167,7 +209,8 @@ if __name__ == "__main__":
     
     scriptFPN = os.path.join(home, 'submodule_stage_commit_push.sh')
     
-    srcProjectFP = '/Users/thomasgumbricht/eclipse-workspace/2020-03_geoimagine/karttur_v202003/geoimagine'
+    #srcProjectFP = '/Users/thomasgumbricht/eclipse-workspace/2020-03_geoimagine/karttur_v202003/geoimagine'
+    srcProjectFP = '/Users/thomasgumbricht/eclipse-workspace_2021-09/test-20211022/test_20211026/geoimagine'
     
     gitHubFP = '/Users/thomasgumbricht/GitHub/'
     
@@ -188,7 +231,7 @@ if __name__ == "__main__":
                   'setup_db','setup_processes','smap','support',
                   'timeseries','updatedb','userproj',
                   'zipper']
-   
+       
     if copyProject:
         
         CopyProject()
